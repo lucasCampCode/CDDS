@@ -1,23 +1,26 @@
 #include <iostream>
 #include "DynamicArray.h"
 
-template<typename T>
-void printArray(T arr, int length)
+void printArray(DynamicArray<int> arr)
 {
-	for (int i = 0; i < length; i++) {
-		std::cout << arr[i] << ", ";
+	for (int i = 0; i < arr.getLength(); i++) {
+		
+			std::cout << arr.get(i) << ", ";
 	}
 }
 
 int main() 
 {
-	DynamicArray<int,5> testArr = DynamicArray<int,5>();
-	
-	printArray(testArr, testArr.getLength());
+	DynamicArray<int> testArr = DynamicArray<int>();
+	for(int i = 0; i < 10;i++)
+	{
+		testArr.push(rand() % 100);
+	}
+	printArray(testArr);
 	
 	std::cout << std::endl;
-
+	testArr.sort();
 	
-	printArray(testArr, testArr.getLength());
+	printArray(testArr);
 	return 0;
 }

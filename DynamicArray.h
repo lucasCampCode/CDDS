@@ -1,45 +1,28 @@
 #pragma once
-template<typename T,int N>
+template<typename T>
 class DynamicArray
 {
 public:
-	DynamicArray()
+	DynamicArray<T>()
 	{
-		T m_items[N] = new T ();
-		m_length = N;
+		m_items = new T[m_length];
 	}
-	~DynamicArray()
+	~DynamicArray<T>()
 	{
 		delete[] m_items;
 	}
-	void addItem(T item)
+	void push(T item)
 	{
-		//If the scene is null then return before running any other logic
-		if (!item)
-			return -1;
-
-		//Create a new temporary array that one size larger than the original
-		T** tempArray = new T * [m_length + 1];
-
-		//Copy values from old array into new array
+		T* tempArray = new T[m_length + 1];
 		for (int i = 0; i < m_length; i++)
 		{
 			tempArray[i] = m_items[i];
 		}
-
-		//Store the current index
-		int index = m_length;
-
-		//Sets the scene at the new index to be the scene passed in
-		tempArray[index] = item;
-
-		//Set the old array to the tmeporary array
+		tempArray[m_length] = item;
 		m_items = tempArray;
-		m_length++; 
-
-		return index;
+		m_length++;
 	}
-	bool removeItem(T item)
+	bool remove(T item)
 	{
 
 		//If the scene is null then return before running any other logic
@@ -49,7 +32,7 @@ public:
 		bool Removed = false;
 
 		//Create a new temporary array that is one less than our original array
-		T** tempArray = new T * [m_length - 1];
+		T* tempArray = new T[m_length - 1];
 
 		//Copy all scenes except the scene we don't want into the new array
 		int j = 0;
@@ -65,8 +48,6 @@ public:
 				Removed = true;
 			}
 		}
-
-		//If the scene was successfully removed set the old array to be the new array
 		if (Removed)
 		{
 			m_items = tempArray;
@@ -75,20 +56,22 @@ public:
 
 		return Removed;
 	}
-	void sortItems()
+	T pop()
 	{
-		for (int i = 0; i < m_length; i++) {
-			int swaped = 0;
-			for (int j = m_length; j > i; j--) {
+		T item = m_items[m_length - 1];
+		remove(item);
+		return item;
+	}
+	void sort()
+	{
+		for (int i = 0; i < m_length-1; i++) {
+			for (int j = m_length-1; j > i; j--) {
 				if (m_items[j] < m_items[j - 1]) {
-					T temp = m_items[j];
+					int temp = m_items[j];
 					m_items[j] = m_items[j - 1];
 					m_items[j - 1] = temp;
-					swaped++;
 				}
 			}
-			if (swaped == 0)
-				break;
 		}
 	}
 	bool getItem(int index,T* item)
@@ -101,9 +84,10 @@ public:
 		item = m_items[index];
 		return true;
 	}
+	T get(int index) { return m_items[index]; }
 	int getLength() { return m_length; }
 private:
-	T* m_items[1];
+	T* m_items;
 	int m_length;
 };
 
