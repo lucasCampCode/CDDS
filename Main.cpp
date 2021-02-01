@@ -1,26 +1,24 @@
-#include <iostream>
+
 #include "DynamicArray.h"
 
-void printArray(DynamicArray<int> arr)
-{
-	for (int i = 0; i < arr.getLength(); i++) {
-		
-			std::cout << arr.get(i) << ", ";
-	}
-}
+
 
 int main() 
 {
+	srand(time(NULL));
 	DynamicArray<int> testArr = DynamicArray<int>();
-	for(int i = 0; i < 10;i++)
+
+	for(int i = 0; i < 10; i++)
 	{
-		testArr.push(rand() % 100);
+		testArr.push(rand() % 10);
 	}
-	printArray(testArr);
-	
+
+	testArr.print();
 	std::cout << std::endl;
 	testArr.sort();
-	
-	printArray(testArr);
+	std::cout << testArr.pop() << std::endl;
+	std::cout << std::endl;
+	testArr.print();
+	system("pause");
 	return 0;
 }
